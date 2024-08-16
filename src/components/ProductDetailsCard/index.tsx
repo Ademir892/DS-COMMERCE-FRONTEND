@@ -20,7 +20,7 @@ export default function ProductDeatilsCard({ product }: Props) {
         <div className="dsc-category-container">
           {
             product.categories.map(item => (
-              <ProductCategory key={item.id} name ={item.name} />
+              <ProductCategory key={item.id} name={item} />
             ))
           }
 
