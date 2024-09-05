@@ -7,12 +7,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ClientHome />}>
+        <Route path="/" element={<ClientHome />} >
           <Route index element={<Catalog />} />
           <Route path="catalog" element={<Catalog />} />
           <Route path="product-details/:productId" element={<ProductDetails />} />
-          <Route path="*" element={<Navigate to="/" />} />
         </Route>
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
