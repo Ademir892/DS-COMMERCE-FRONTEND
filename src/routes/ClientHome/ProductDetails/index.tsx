@@ -1,31 +1,34 @@
-import "./styles.css";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import * as productService from "../../../services/product-service";
+import { ProductDTO } from "../../../models/product";
+import * as cartService from "../../../services/cart-service";
 import ButtonInverse from "../../../components/ButtonInverse";
 import ButtonPrimary from "../../../components/ButtonPrimary";
 import ProductDeatilsCard from "../../../components/ProductDetailsCard";
-import * as productService from "../../../services/product-service";
-import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ProductDTO } from "../../../models/product";
-import * as cartService from "../../../services/cart-service";
 
 export default function ProductDetails() {
   const params = useParams();
-
   const navigate = useNavigate();
-
   const [product, setProduct] = useState<ProductDTO>();
 
   useEffect(() => {
-    productService
-      .findById(Number(params.productId))
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch(() => {
-        navigate("/");
-      });
-  }, []);
+    const productId = Number(params.productId);
+    
+    if (!isNaN(productId)) {
+      productService
+        .findById(productId)
+        .then((response) => {
+          setProduct(response.data);
+        })
+        .catch(() => {
+          navigate("/"); // Redireciona se não encontrar o produto
+        });
+    } else {
+      navigate("/"); // Redireciona se o productId for inválido
+    }
+  }, [params.productId, navigate]);
 
   function handleBuyClick() {
     if (product) {
