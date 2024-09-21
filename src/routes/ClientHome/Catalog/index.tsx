@@ -18,7 +18,7 @@ export default function Catalog() {
 
   const [queryParams, setQueryParams] = useState<QueryParams>({
     page: 0,
-    name: '',
+    name: " ",
   });
 
   useEffect(() => {
