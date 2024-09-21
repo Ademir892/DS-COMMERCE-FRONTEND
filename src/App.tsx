@@ -10,8 +10,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<ClientHome />} >
           <Route index element={<Catalog />} />
-          <Route path="product-details/:productId" element={<ProductDetails />} />
-          <Route path="cart" element={<Cart />} />
+          <Route path="/product-details/:productId" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
