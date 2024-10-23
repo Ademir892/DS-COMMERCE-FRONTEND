@@ -16,10 +16,10 @@ export default function Login() {
           .then(response => {
             authService.saveAcessToken(response.data.acess_token);
             console.log(response.data);
-      })
-      .catch(error => {
-        console.log("Erro no login", error);
-      })
+          })
+          .catch(error => {
+          console.log("Erro no login", error);
+          })
 
     function handleInputChange(event: any) {
       const value = event.target.value;
