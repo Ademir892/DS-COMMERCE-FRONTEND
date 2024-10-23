@@ -9,7 +9,7 @@ import * as acessTokenRepository from '../localstorage/acess-token-repository';
 
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET)
+        Authorization: "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET)
     }
 
     const requestBody = QueryString.stringify({...loginData, grant_type: "password" });
@@ -33,5 +33,5 @@ import * as acessTokenRepository from '../localstorage/acess-token-repository';
  }
 
  export function getAcessToken(){
-    acessTokenRepository.get();
+    return acessTokenRepository.get();
  }

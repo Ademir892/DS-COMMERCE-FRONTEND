@@ -6,15 +6,16 @@ import * as authService from "../../../services/auth-service";
 export default function Login() {
     
     const [formData, setFormData] = useState<CredentialsDTO>({
-    username: "",
-    password: "",
+    username: '',
+    password: ''
     })
 
     function handleSubmit(event: any) {
-    event.preventDefault();
-    authService.loginRequest(formData)
-        .then(response => {
-        console.log(response.data);
+      event.preventDefault();
+        authService.loginRequest(formData)
+          .then(response => {
+            authService.saveAcessToken(response.data.acess_token);
+            console.log(response.data);
       })
       .catch(error => {
         console.log("Erro no login", error);
