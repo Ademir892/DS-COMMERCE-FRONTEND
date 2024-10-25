@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/product";
 
 
+
 type QueryParams ={
   page: number;
   name: string;

@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { AccessTokenPayloadDTO, CredentialsDTO } from "../models/auth";
+import { AccessTokenPayloadDTO, CredentialsDTO, RoleEnum } from "../models/auth";
 import { CLIENT_ID, CLIENT_SECRET } from "../utils/systm";
 import QueryString from "qs";
 import { requestBackend } from "../utils/requests";
@@ -50,4 +50,21 @@ export function getAccessTokenPayload(): AccessTokenPayloadDTO | undefined {
   }
 }
 
+export function hasAnyRoles(roles: RoleEnum[]): boolean {
+  if (roles.length === 0) {
+    return true;
+  }
+
+  const tokenPayload = getAccessTokenPayload();
+  
+  if (tokenPayload !== undefined) {
+    for (var i = 0; i < roles.length; i++) {
+      if (tokenPayload.authorities.includes(roles[i])) {
+        return true;
+      }
+    }
+    //return roles.some(role => tokenData.authorities.includes(role));
+  }
+  return false;
+}
 
