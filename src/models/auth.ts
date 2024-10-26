@@ -1,4 +1,3 @@
-import { getAccessTokenPayload } from "../services/auth-service";
 
 export type RoleEnum = "ROLE_ADMIN" | "ROLE_CLIENT";
 
@@ -13,12 +12,4 @@ export type AccessTokenPayloadDTO = {
   authorities: RoleEnum[];
 };
 
-export function isAuthenticated(): boolean {
-  let tokenPayload = getAccessTokenPayload();
 
-  if(tokenPayload && tokenPayload.exp * 1000 > Date.now()){
-    return true;
-  }
-  return false;
-  //return tokenPayload && tokenPayload.exp * 1000 > Date.now() ? true : false; maneira simplificada 
-}
