@@ -13,7 +13,7 @@ import jwtDecode from "jwt-decode";
 export function loginRequest(loginData: CredentialsDTO) {
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET),
+    Authorization: "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET)
   };
 
   const requestBody = QueryString.stringify({

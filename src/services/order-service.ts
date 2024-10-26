@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
+import { OrderDTO } from "../models/order";
 
 export function FindByIdRequest(id: number){
     const config : AxiosRequestConfig = {
@@ -8,4 +9,16 @@ export function FindByIdRequest(id: number){
     }
     return requestBackend(config);
 
+}
+
+export function placeOrderRequest(cart: OrderDTO){
+
+    const config: AxiosRequestConfig = {
+        method: 'POST',
+        url: '/orders',
+        withCredentials: true,
+        data: cart
+    }
+
+    return requestBackend(config);
 }
