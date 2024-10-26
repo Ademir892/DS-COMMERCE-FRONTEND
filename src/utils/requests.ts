@@ -7,7 +7,7 @@ export function requestBackend(config: AxiosRequestConfig) {
   const headers = config.withCredentials
     ? {
         ...config.headers,
-        Authorization: "Bearer " + authService.getAcessToken(),
+        Authorization: "Bearer " + authService.getAccessToken(),
       }
     : config.headers;
 

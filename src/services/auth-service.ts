@@ -1,9 +1,13 @@
 import { AxiosRequestConfig } from "axios";
-import { AccessTokenPayloadDTO, CredentialsDTO, RoleEnum } from "../models/auth";
+import {
+  AccessTokenPayloadDTO,
+  CredentialsDTO,
+  RoleEnum,
+} from "../models/auth";
 import { CLIENT_ID, CLIENT_SECRET } from "../utils/systm";
 import QueryString from "qs";
 import { requestBackend } from "../utils/requests";
-import * as acessTokenRepository from "../localstorage/acess-token-repository";
+import * as accessTokenRepository from "../localstorage/acess-token-repository";
 import jwtDecode from "jwt-decode";
 
 export function loginRequest(loginData: CredentialsDTO) {
@@ -28,23 +32,21 @@ export function loginRequest(loginData: CredentialsDTO) {
 }
 
 export function logout() {
-  acessTokenRepository.remove();
+  accessTokenRepository.remove();
 }
 
-export function saveAcessToken(token: string) {
-  acessTokenRepository.save(token);
+export function saveAccessToken(token: string) {
+  accessTokenRepository.save(token);
 }
 
-export function getAcessToken() {
-  return acessTokenRepository.get();
+export function getAccessToken() {
+  return accessTokenRepository.get();
 }
 
 export function getAccessTokenPayload(): AccessTokenPayloadDTO | undefined {
   try {
-    const token = acessTokenRepository.get();
-    return token == null
-      ? undefined
-      : (jwtDecode(token) as AccessTokenPayloadDTO);
+    const token = getAccessToken();
+    return token ? (jwtDecode(token) as AccessTokenPayloadDTO) : undefined;
   } catch (error) {
     return undefined;
   }
@@ -56,7 +58,7 @@ export function hasAnyRoles(roles: RoleEnum[]): boolean {
   }
 
   const tokenPayload = getAccessTokenPayload();
-  
+
   if (tokenPayload !== undefined) {
     for (var i = 0; i < roles.length; i++) {
       if (tokenPayload.authorities.includes(roles[i])) {
@@ -71,10 +73,9 @@ export function hasAnyRoles(roles: RoleEnum[]): boolean {
 export function isAuthenticated(): boolean {
   let tokenPayload = getAccessTokenPayload();
 
-  if(tokenPayload && tokenPayload.exp * 1000 > Date.now()){
+  if (tokenPayload && tokenPayload.exp * 1000 > Date.now()) {
     return true;
   }
   return false;
-  //return tokenPayload && tokenPayload.exp * 1000 > Date.now() ? true : false; maneira simplificada 
+  //return tokenPayload && tokenPayload.exp * 1000 > Date.now() ? true : false; maneira simplificada
 }
-

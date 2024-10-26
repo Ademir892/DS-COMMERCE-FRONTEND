@@ -1,7 +1,7 @@
 import { TOKEN_KEY } from "../utils/systm";
 
 export function save(token: string){
-   return localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token);
 }
 
 export function get() : string | null {

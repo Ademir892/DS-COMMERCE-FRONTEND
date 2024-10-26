@@ -16,18 +16,18 @@ export default function Login() {
     password: "",
   });
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(event: any) {
     const value = event.target.value;
     const name = event.target.name;
     setFormData({ ...formData, [name]: value });
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: any) {
     event.preventDefault();
     authService
       .loginRequest(formData)
       .then((response) => {
-        authService.saveAcessToken(response.data.acess_token);
+        authService.saveAccessToken(response.data.acess_token);
         setContextTokenPayload(authService.getAccessTokenPayload());
         navigate("/cart");
       })
