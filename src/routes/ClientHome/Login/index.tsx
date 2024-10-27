@@ -24,10 +24,9 @@ export default function Login() {
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    authService
-      .loginRequest(formData)
+    authService.loginRequest(formData)
       .then((response) => {
-        authService.saveAccessToken(response.data.acess_token);
+        authService.saveAccessToken(response.data.access_token);
         setContextTokenPayload(authService.getAccessTokenPayload());
         navigate("/cart");
       })
