@@ -4,6 +4,8 @@ import "./styless.css";
 import { useEffect, useState } from "react";
 import * as productService from "../../../services/product-service";
 import { ProductDTO } from "../../../models/product";
+import SearchBar from "../../../components/SearchBar";
+import ButtonNextPage from "../../../components/ButtonNextPage";
 
 type QueryParams = {
   page: number;
@@ -30,6 +32,15 @@ export default function ProductListing() {
       });
   }, [queryParams]);
 
+  function handleSearch(searchText: string) {
+    setProducts([]);
+    setQueryParams({ ...queryParams, page: 0, name: searchText });
+  }
+
+  function handleNextPageClick() {
+    setQueryParams({ ...queryParams, page: queryParams.page + 1 });
+  }
+
   return (
     <main>
       <section id="product-listing-section" className="dsc-container">
@@ -39,11 +50,7 @@ export default function ProductListing() {
           <div className="dsc-btn dsc-btn-white">Novo</div>
         </div>
 
-        <form className="dsc-search-bar">
-          <button type="submit">🔎︎</button>
-          <input type="text" placeholder="Nome do produto" />
-          <button type="reset">🗙</button>
-        </form>
+        <SearchBar onSearch={handleSearch} />
 
         <table className="dsc-table dsc-mb20 dsc-mt20">
           <thead>
@@ -57,40 +64,40 @@ export default function ProductListing() {
             </tr>
           </thead>
           <tbody>
-            {
-                products.map(product => (
-                    <tr>
-              <td className="dsc-tb576">{product.id}</td>
-              <td>
-                <img
-                  className="dsc-product-listing-image"
-                  src={product.imgURL}
-                  alt={product.name}
-                />
-              </td>
-              <td className="dsc-tb768">{product.price.toFixed(2)}</td>
-              <td className="dsc-txt-left">{product.name}</td>
-              <td>
-                <img
-                  className="dsc-product-listing-btn"
-                  src={editIcon}
-                  alt="Editar"
-                />
-              </td>
-              <td>
-                <img
-                  className="dsc-product-listing-btn"
-                  src={deleteIcon}
-                  alt="Deletar"
-                />
-              </td>
-            </tr>
-                ))
-            }
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td className="dsc-tb576">{product.id}</td>
+                <td>
+                  <img
+                    className="dsc-product-listing-image"
+                    src={product.imgURL}
+                    alt={product.name}
+                  />
+                </td>
+                <td className="dsc-tb768">{product.price.toFixed(2)}</td>
+                <td className="dsc-txt-left">{product.name}</td>
+                <td>
+                  <img
+                    className="dsc-product-listing-btn"
+                    src={editIcon}
+                    alt="Editar"
+                  />
+                </td>
+                <td>
+                  <img
+                    className="dsc-product-listing-btn"
+                    src={deleteIcon}
+                    alt="Deletar"
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
-
-        <div className="dsc-btn-next-page">Carregar mais</div>
+        {
+        !isLastPage && 
+        <ButtonNextPage onNextPage={handleNextPageClick} />
+        }
       </section>
     </main>
   );
