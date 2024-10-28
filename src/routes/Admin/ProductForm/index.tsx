@@ -3,13 +3,12 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import FormInput from "../../../components/FormInput";
 import * as forms from "../../../utils/forms";
-import * as productService from '../../../services/product-service';
+import * as productService from "../../../services/product-service";
 
 export default function ProductForm() {
-
   const params = useParams();
 
-  const isEditing = params.productId !== 'create';
+  const isEditing = params.productId !== "create";
 
   const [formData, setFormData] = useState<any>({
     name: {
@@ -26,9 +25,9 @@ export default function ProductForm() {
       type: "number",
       placeholder: "Preço",
       validation: function (value: any) {
-        return Number (value) > 0;
+        return Number(value) > 0;
       },
-      message: "Favor informar um valor positivo!"
+      message: "Favor informar um valor positivo!",
     },
     imgUrl: {
       value: "",
@@ -39,12 +38,13 @@ export default function ProductForm() {
     },
   });
 
-  useEffect(() =>{
-    if(isEditing) {
-      productService.findById(Number(params.productId))
-        .then(response => {
-          setFormData(forms.updateAll(formData, response.data));
-        })
+  useEffect(() => {
+    const result = forms.toDirty(formData, "price");
+    console.log(result);
+    if (isEditing) {
+      productService.findById(Number(params.productId)).then((response) => {
+        setFormData(forms.updateAll(formData, response.data));
+      });
     }
   }, []);
 
@@ -56,6 +56,11 @@ export default function ProductForm() {
     setFormData(dataValidated);
   }
 
+  function handleTurnDirty(name: string){
+    const newFormData = forms.toDirty(formData, name);
+    setFormData(newFormData);
+  }
+
   return (
     <main>
       <section id="product-form-section" className="dsc-container">
@@ -64,15 +69,30 @@ export default function ProductForm() {
             <h2>Dados do produto</h2>
             <div className="dsc-form-controls-container">
               <div>
-                <FormInput {...formData.name} className="dsc-form-control" onChange={handleInputChange} />
+                <FormInput
+                  {...formData.name}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
                 <div className="dsc-form-error">{formData.name.message}</div>
               </div>
               <div>
-                <FormInput {...formData.price} className="dsc-form-control" onChange={handleInputChange} />
+                <FormInput
+                  {...formData.price}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
                 <div className="dsc-form-error">{formData.price.message}</div>
               </div>
               <div>
-                <FormInput {...formData.imgUrl} className="dsc-form-control" onChange={handleInputChange} />
+                <FormInput
+                  {...formData.imgUrl}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
             <div className="dsc-product-form-buttons">
